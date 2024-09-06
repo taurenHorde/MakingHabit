@@ -6,18 +6,61 @@ import Checkbox from 'expo-checkbox';
 
 export default function MainPage({ navigation }) {
 
+    let testArr = Array.from({ length: 5 }, (_, i) => i + 1)
 
     return (
-        <View style={styles.MainPageWrap}>
-
+        <View style={styles.mainPageWrap}>
+            <View style={styles.mainPageHead}>
+                <Text style={styles.mainPageTitle}>24.09.06</Text>
+            </View>
+            <View style={styles.mainPageBody}>
+                {testArr?.map((val) => (
+                    <View style={styles.mainPageGoalBox} key={val}>
+                        <Text>{val}</Text>
+                    </View>
+                ))}
+            </View>
+            <View style={styles.mainPageFooter}></View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    MainPageWrap: {
+    mainPageWrap: {
         flex: 1,
         backgroundColor: darkTheme.bg,
     },
-
+    mainPageHead: {
+        flexBasis: "15%",
+        flexShrink: 0,
+        justifyContent: 'flex-end',
+    },
+    mainPageTitle: {
+        paddingHorizontal: 20,
+        fontSize: 25,
+        lineHeight: 30,
+        color: darkTheme.color,
+        fontFamily: fontTheme.noto600
+    },
+    mainPageBody: {
+        flexGrow: 1,
+        flexShrink: 1,
+        paddingTop: 15,
+        marginTop: 20,
+        alignItems: 'flex-end'
+    },
+    mainPageGoalBox: {
+        marginVertical: 10,
+        paddingVertical: 5,
+        paddingHorizontal: 15,
+        backgroundColor: 'skyblue',
+        width: '95%',
+        minHeight: 70,
+        borderTopLeftRadius: 15,
+        borderBottomLeftRadius: 15,
+    },
+    mainPageFooter: {
+        flexGrow: 1,
+        flexShrink: 1,
+    },
 });
