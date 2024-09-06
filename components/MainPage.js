@@ -16,11 +16,15 @@ export default function MainPage({ navigation }) {
             <View style={styles.mainPageBody}>
                 {testArr?.map((val) => (
                     <View style={styles.mainPageGoalBox} key={val}>
-                        <Text>{val}</Text>
+                        <View style={styles.mainPageGoalResult}></View>
+                        <View style={styles.mainPageGoalName}></View>
+                        <View style={styles.mainPageGoalSetting}></View>
                     </View>
                 ))}
             </View>
-            <View style={styles.mainPageFooter}></View>
+            <View style={styles.mainPageFooter}>
+                
+            </View>
         </View>
     );
 }
@@ -58,6 +62,18 @@ const styles = StyleSheet.create({
         minHeight: 70,
         borderTopLeftRadius: 15,
         borderBottomLeftRadius: 15,
+        flexDirection: 'row'
+    },
+    mainPageGoalResult: {
+        width: 60,
+        backgroundColor: 'red'
+    },
+    mainPageGoalName: {
+        flexGrow: 1
+    },
+    mainPageGoalSetting: {
+        width: 60,
+        backgroundColor: 'red'
     },
     mainPageFooter: {
         flexGrow: 1,

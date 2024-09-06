@@ -1,6 +1,7 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
 
@@ -11,6 +12,22 @@ import JoinPage from './components/JoinPage';
 import MainPage from './components/MainPage';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function UnderTabNavigator() {
+  return (
+    <Tab.Navigator
+      initialRouteName='Main'
+      screenOptions={{
+        animation: 'fade',
+        headerShown: false
+      }}
+    >
+      <Tab.Screen name='Main' component={MainPage} />
+      {/* <Tab.Screen name='Join' component={JoinPage} /> */}
+    </Tab.Navigator>
+  )
+}
 
 export default function App() {
 
@@ -54,7 +71,8 @@ export default function App() {
 
           <Stack.Screen
             name="Main"
-            component={MainPage}
+            // component={MainPage}
+            component={UnderTabNavigator}
           />
 
         </Stack.Navigator>
@@ -73,3 +91,6 @@ export default function App() {
 // 2. npx expo install expo-font (https://docs.expo.dev/versions/latest/sdk/font/)
 // 폰트 다운 후 assets 파일에 넣고 써야함. 
 // weight가 적용되지 않아, 분할되서 파일 적용
+
+// 3. bottom-tabs 
+// npm install @react-navigation/bottom-tabs
