@@ -24,7 +24,6 @@ function UnderTabNavigator() {
       }}
     >
       <Tab.Screen name='Main' component={MainPage} />
-      {/* <Tab.Screen name='Join' component={JoinPage} /> */}
     </Tab.Navigator>
   )
 }
@@ -70,7 +69,7 @@ export default function App() {
           />
 
           <Stack.Screen
-            name="Main"
+            name="Signed"
             // component={MainPage}
             component={UnderTabNavigator}
           />

@@ -8,7 +8,7 @@ export default function EnterPage({ navigation }) {
 
   const clickToLogin = () => navigation.navigate('Login');
   const clickToJoin = () => navigation.navigate('Join');
-  const clickToMain = () => navigation.navigate('Main');
+  const clickToSigned = () => navigation.navigate('Signed');
 
   return (
     <View style={styles.enterPageWrap}>
@@ -32,7 +32,7 @@ export default function EnterPage({ navigation }) {
         <View style={styles.enterPageSocial}>
           <TouchableOpacity
             style={{ ...styles.enterPageSocialButton, backgroundColor: '#FAE300' }}
-            onPress={clickToMain}
+            onPress={clickToSigned}
           >
             <Text style={styles.enterPageSocialButtonText}>카카오</Text>
           </TouchableOpacity >

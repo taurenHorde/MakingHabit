@@ -1,12 +1,56 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { useRef } from 'react';
+import { StyleSheet, Text, View, Animated, PanResponder } from 'react-native';
 import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
-import Checkbox from 'expo-checkbox';
 
 export default function MainPage({ navigation }) {
 
-    let testArr = Array.from({ length: 5 }, (_, i) => i + 1)
+    let testArr = Array.from({ length: 2 }, (_, i) => i + 1)
+
+
+    const renderComponent = (idx) => {
+        const pan = useRef(new Animated.ValueXY()).current;
+        const panResponder = useRef(
+            PanResponder.create({
+                onStartShouldSetPanResponder: () => true,
+                onPanResponderMove: Animated.event(
+                    [null, { dx: pan.x }],
+                    {
+                        useNativeDriver: false,
+                        listener: (e, gestureState) => {
+                            console.log("X" + gestureState.dx)
+                        }
+                    }
+                ),
+                onPanResponderRelease: () => {
+                    pan.extractOffset()
+                },
+                // onPanResponderMove: (e, g) => {
+                // pan.x.setValue(g.dx);
+                // pan.y.setValue(g.dy);
+                // 직접 처리 하는 방법 },
+            }),
+        ).current;
+
+        return (
+            <View style={styles.mainPageGoalBox} key={idx}>
+                <View style={styles.mainPageGoalResult}></View>
+                <View style={styles.mainPageGoalName}></View>
+                <Animated.View
+                    style={{
+                        ...styles.mainPageGoalSetting,
+                        transform: [{ translateX: pan.x }],
+                    }}
+                    {...panResponder.panHandlers}
+                >
+                    <Text style={styles.textText}>Slide</Text>
+                </Animated.View>
+            </View>
+        )
+
+    }
+
 
     return (
         <View style={styles.mainPageWrap}>
@@ -14,16 +58,10 @@ export default function MainPage({ navigation }) {
                 <Text style={styles.mainPageTitle}>24.09.06</Text>
             </View>
             <View style={styles.mainPageBody}>
-                {testArr?.map((val) => (
-                    <View style={styles.mainPageGoalBox} key={val}>
-                        <View style={styles.mainPageGoalResult}></View>
-                        <View style={styles.mainPageGoalName}></View>
-                        <View style={styles.mainPageGoalSetting}></View>
-                    </View>
-                ))}
+                {testArr?.map((val, idx) => renderComponent(idx))}
             </View>
             <View style={styles.mainPageFooter}>
-                
+
             </View>
         </View>
     );
@@ -73,7 +111,9 @@ const styles = StyleSheet.create({
     },
     mainPageGoalSetting: {
         width: 60,
-        backgroundColor: 'red'
+        backgroundColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     mainPageFooter: {
         flexGrow: 1,
