@@ -1,8 +1,10 @@
 
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Text, FlatList, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
 import { darkTheme, lightTheme } from '../../theme/color';
 import { fontTheme } from '../../theme/font';
+import { useSelector, useDispatch } from 'react-redux';
+import { chooseDate } from '../../store/dateSlice';
 import moment from 'moment';
 import 'moment/locale/ko'
 moment.locale('ko')
@@ -26,17 +28,18 @@ const Item = ({ item, index, onPress, color, borderBottomWidth, borderBottomColo
 }
 
 export default function HorizonCalendarPage({ navigation }) {
+  const dispatch = useDispatch();
+  const dateSlice = useSelector((state) => state.dateSlice)
 
   const screenWidth = Dimensions.get('window').width;
   const [dateList, setDateList] = useState([]);
   const [earliestDate, setEarliestDate] = useState(moment());
-  const [selectDate, setSelectDate] = useState();
   const [firstLoadingCheck, setFirstLoadingCheck] = useState(false)
 
   useEffect(() => {
     if (firstLoadingCheck) return;
     const firstBringToDate = async () => {
-      setSelectDate(moment().add(-1, 'days'))
+      dispatch(chooseDate(moment().add(-1, 'days').format('YYYY-MM-DD')))
       const result = await bringTodate();
       if (result) setFirstLoadingCheck(true)
     }
@@ -60,7 +63,7 @@ export default function HorizonCalendarPage({ navigation }) {
 
   const renderItem = ({ item, index }) => {
 
-    const { color, borderBottomWidth, borderBottomColor } = moment(item).isSame(moment(selectDate), 'day')
+    const { color, borderBottomWidth, borderBottomColor } = moment(item).isSame(moment(dateSlice.selectDate), 'day')
       ? { color: darkTheme.color, borderBottomWidth: 3, borderBottomColor: 'white' }
       : { color: 'gray', borderBottomWidth: 0, borderBottomColor: 'transparent' };
 
@@ -71,8 +74,7 @@ export default function HorizonCalendarPage({ navigation }) {
         item={item}
         index={index}
         onPress={() => {
-          console.log(item)
-          setSelectDate(item)
+          dispatch(chooseDate(moment(item).format('YYYY-MM-DD')))
         }}
         color={color}
         borderBottomWidth={borderBottomWidth}
@@ -92,7 +94,7 @@ export default function HorizonCalendarPage({ navigation }) {
         horizontal
         windowSize={Infinity}
         renderItem={renderItem}
-        extraData={selectDate}
+        extraData={dateSlice.selectDate}
         getItemLayout={(data, index) => {
           return { length: screenWidth / 7, offset: (screenWidth / 7) * index, index }
         }}

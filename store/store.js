@@ -5,7 +5,8 @@ import dateSliceReducer from './dateSlice'
 
 const store = configureStore({
     reducer: {
-        dateSlice: dateSliceReducer
+        dateSlice: dateSliceReducer,
+
     }
 });
 

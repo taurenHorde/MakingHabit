@@ -2,12 +2,16 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, } from 'react-native';
 import { darkTheme, lightTheme } from '../theme/color';
-import { fontTheme } from '../theme/font';
-
+import { useSelector } from 'react-redux';
 import HorizonCalendarPage from './inHistory/HorizonCalendar';
-
+import moment from 'moment';
+import 'moment/locale/ko'
+moment.locale('ko')
 
 export default function HistoryPage({ navigation }) {
+
+  const dateSlice = useSelector((state) => state.dateSlice)
+  const selectDate = moment(dateSlice.selectDate).format('MM')
 
   return (
     <View style={styles.historyPageWrap}>
@@ -16,11 +20,12 @@ export default function HistoryPage({ navigation }) {
           <HorizonCalendarPage />
         </View>
         <View style={styles.historyPageSeletedDate}>
-          <Text
-            style={{ color: 'white' }}
-          >
-            _-_ SeletedDate _-_
-          </Text>
+          <View>
+            <Text>{selectDate}월</Text>
+          </View>
+          <View>
+
+          </View>
         </View>
       </View>
       <View style={styles.historyPageBody}></View>
