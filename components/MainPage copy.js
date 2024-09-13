@@ -10,23 +10,15 @@ export default function MainPage({ navigation }) {
     let testArr = Array.from({ length: 5 }, (_, i) => i + 1)
     const boxWrapWidRef = useRef(0); // goalBox
     const aniBoxWidRef = useRef(0); // goalSetting - Animated
-    const [boxT, setBoxT] = useState([0, 0, 0, 0, 0])
+    const [wrapTransLateX, setWrapTransLateX] = useState(0);
 
 
-
-
-    const RenderComponent = (val, idx) => {
+    const renderComponent = (val, idx) => {
 
         const wrapX = useRef(new Animated.Value(0)).current;
-        const wrapResponder = (distance, direction) => {
-            setBoxT(pre => {
-                const copy = [...pre]
-                copy[idx] = direction === 1 ? 0 : 1;
-                return copy
-            })
-
+        const wrapResponder = (type) => {
             Animated.timing(wrapX, {
-                toValue: distance * direction,
+                toValue: wrapTransLateX * type,
                 duration: 200,
                 useNativeDriver: true,
             }).start();
@@ -50,8 +42,8 @@ export default function MainPage({ navigation }) {
                         useNativeDriver: false
                     }).start()
                     if (dragCheck) {
-                        if (gestureState.dx > 0) wrapResponder(boxWrapWidRef.current * 0.3, 1)
-                        if (gestureState.dx < 0) wrapResponder(boxWrapWidRef.current * 0.3, -1)
+                        if (gestureState.dx > 0) console.log(`${idx} => 왼쪽`)
+                        if (gestureState.dx < 0) console.log(`${idx} => 오른쪽`)
                     }
                 },
             }),
@@ -64,8 +56,9 @@ export default function MainPage({ navigation }) {
 
         const boxWrapLayout = (e) => {
             const { width } = e.nativeEvent.layout;
+            setWrapTransLateX(width * 0.3)
             boxWrapWidRef.current = width;
-            wrapResponder(width * 0.3, 1)
+            wrapResponder(1)
         }
 
         return (
@@ -77,10 +70,7 @@ export default function MainPage({ navigation }) {
                     transform: [{ translateX: wrapX }]
                 }}
             >
-                <View style={{
-                    ...styles.mainPageGoalPart1,
-                    flexBasis: boxT[idx] === 1 ? '20%' : "none"
-                }}>
+                <View style={styles.mainPageGoalPart1}>
                     <View style={styles.mainPageGoalResult}>
                         <Text>{idx}</Text>
                     </View>
@@ -91,7 +81,7 @@ export default function MainPage({ navigation }) {
                 <Animated.View
                     onLayout={aniBoxLayout}
                     style={{
-                        ...styles.mainPageGoalSlideBox,
+                        ...styles.mainPageGoalSetting,
                         transform: [{ translateX: pan.x }],
                     }}
                     {...panResponder.panHandlers}
@@ -100,17 +90,9 @@ export default function MainPage({ navigation }) {
                 </Animated.View>
                 <View style={{
                     ...styles.mainPageGoalPart3,
-                    flexBasis: boxT[idx] === 0 ? '20%' : "none"
+                    flexBasis: '20%'
                 }}>
-                    <View style={styles.mainPageGoalSuccess}>
-                        <Text>성공!</Text>
-                    </View>
-                    <View style={styles.mainPageGoalFail}>
-                        <Text>실패</Text>
-                    </View>
-                    <View style={styles.mainPageGoalSetting}>
-                        <Text>셋팅</Text>
-                    </View>
+
                 </View>
             </Animated.View>
         )
@@ -120,10 +102,10 @@ export default function MainPage({ navigation }) {
     return (
         <View style={styles.mainPageWrap}>
             <View style={styles.mainPageHead}>
-                <Text style={styles.mainPageTitle}>Today (24.09.06)</Text>
+                <Text style={styles.mainPageTitle}>24.09.06</Text>
             </View>
             <View style={styles.mainPageBody}>
-                {testArr?.map((val, idx) => RenderComponent(val, idx))}
+                {testArr?.map((val, idx) => renderComponent(val, idx))}
             </View>
             <View style={styles.mainPageFooter}>
 
@@ -185,7 +167,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start'
     },
-    mainPageGoalSlideBox: {
+    mainPageGoalSetting: {
         width: 60,
         justifyContent: 'center',
         alignItems: 'center',
@@ -193,24 +175,7 @@ const styles = StyleSheet.create({
     mainPageGoalPart3: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 0, 255, 0.16)',
-        justifyContent: 'space-around',
-        alignContent: 'center'
-    },
-    mainPageGoalSuccess: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    mainPageGoalFail: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    mainPageGoalSetting: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: 'rgba(255, 0, 255, 0.16)'
     },
     mainPageFooter: {
         flexGrow: 1,
