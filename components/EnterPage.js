@@ -2,17 +2,17 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 export default function EnterPage({ navigation }) {
-
+  
 
   const clickToLogin = () => navigation.navigate('Login');
   const clickToJoin = () => navigation.navigate('Join');
   const clickToSigned = () => navigation.navigate('Signed');
 
-  // const theme = useSelector(state => state.themeSlice)
+
 
   return (
     <View style={styles.enterPageWrap}>

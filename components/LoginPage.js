@@ -3,7 +3,6 @@ import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
 import { useState } from 'react';
 
-
 export default function LoginPage({ navigation }) {
 
     const [id, setId] = useState("")

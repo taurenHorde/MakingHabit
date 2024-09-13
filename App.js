@@ -1,4 +1,8 @@
 
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store/Store';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -47,37 +51,39 @@ export default function App() {
 
   if (!loading) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName='Enter'
-          screenOptions={{
-            animation: 'fade',
-            headerShown: false
-            // screenOptions 및 transitionSpec 추후에 다시 설정
-          }}
-        >
-          <Stack.Screen
-            name="Enter"
-            component={EnterPage}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginPage}
-          />
-          <Stack.Screen
-            name="Join"
-            component={JoinPage}
-          />
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName='Enter'
+            screenOptions={{
+              animation: 'fade',
+              headerShown: false
+              // screenOptions 및 transitionSpec 추후에 다시 설정
+            }}
+          >
+            <Stack.Screen
+              name="Enter"
+              component={EnterPage}
+            />
+            <Stack.Screen
+              name="Login"
+              component={LoginPage}
+            />
+            <Stack.Screen
+              name="Join"
+              component={JoinPage}
+            />
 
-          <Stack.Screen
-            name="Signed"
-            // component={MainPage}
-            component={UnderTabNavigator}
-          />
+            <Stack.Screen
+              name="Signed"
+              // component={MainPage}
+              component={UnderTabNavigator}
+            />
 
-        </Stack.Navigator>
-        {/* <StatusBar backgroundColor='white' /> */}
-      </NavigationContainer>
+          </Stack.Navigator>
+          {/* <StatusBar backgroundColor='white' /> */}
+        </NavigationContainer>
+      </Provider>
     );
   }
 }
@@ -104,3 +110,7 @@ export default function App() {
 
 // FlatList - 간편, 정보많음, 데이터많아도 성능 괜츈 / 리스트가 길면 복잡해짐, 단순한 가상화 기능만 있음.
 // RecyclerListView - 많은리스트사용시 성능좋음, 기능많음, 리스트관리 용이 / 설정 복잡, API 사용이 어려움
+
+
+// 5. redux-toolkit 
+// index.js 가 없다. Expo는 엔트리포인트가 App.js라고 해서 여기에 적용,

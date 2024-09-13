@@ -1,10 +1,12 @@
 
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './rootReducer';
+import dateSliceReducer from './dateSlice'
 
 
 const store = configureStore({
-    reducer: rootReducer
+    reducer: {
+        dateSlice: dateSliceReducer
+    }
 });
 
 export default store;
