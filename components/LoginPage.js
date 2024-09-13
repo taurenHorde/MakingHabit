@@ -39,7 +39,7 @@ export default function LoginPage({ navigation }) {
                     <Text style={styles.loginPageInputButtonText}>로그인</Text>
                 </TouchableOpacity>
                 <View style={styles.loginPageInputBox}>
-                    <Text style={styles.loginPageInputText}>계정 및 비밀번호 찾기</Text>
+                    <Text style={styles.loginPageInputText}>계정 및 비밀번호 찾기(구현x)</Text>
                 </View>
             </View>
             <View style={styles.loginPageFooter}></View>

@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   joinPageHead: {
     flexGrow: 0,
     flexShrink: 0,
-    flexBasis: '22%',
+    flexBasis: '15%',
     justifyContent: 'flex-end',
     marginVertical: 20
   },

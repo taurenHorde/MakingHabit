@@ -5,11 +5,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
 
-import { darkTheme } from './theme/color';
 import EnterPage from './components/EnterPage';
 import LoginPage from './components/LoginPage';
 import JoinPage from './components/JoinPage';
 import MainPage from './components/MainPage';
+import HistoryPage from './components/History';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,7 +23,8 @@ function UnderTabNavigator() {
         headerShown: false
       }}
     >
-      <Tab.Screen name='Main' component={MainPage} />
+      <Tab.Screen name='TODAY' component={MainPage} />
+      <Tab.Screen name='HISTORY' component={HistoryPage} />
     </Tab.Navigator>
   )
 }
@@ -93,3 +94,13 @@ export default function App() {
 
 // 3. bottom-tabs 
 // npm install @react-navigation/bottom-tabs
+
+// 4. Moment
+// npm install moment
+
+// -. react-window  (RN 에서 사용하지 않음. DOM기반으로 웹에서만 사용)
+// 대체, RN "FlatList" ,"SectionList" , "RecyclerListView"
+// SectionList는 기능이 다르다고 함
+
+// FlatList - 간편, 정보많음, 데이터많아도 성능 괜츈 / 리스트가 길면 복잡해짐, 단순한 가상화 기능만 있음.
+// RecyclerListView - 많은리스트사용시 성능좋음, 기능많음, 리스트관리 용이 / 설정 복잡, API 사용이 어려움
