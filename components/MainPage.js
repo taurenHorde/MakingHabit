@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View, Animated, PanResponder, ActivityIndicator } from 'react-native';
 import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
+import moment from 'moment';
 
 export default function MainPage({ navigation }) {
 
