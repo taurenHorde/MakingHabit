@@ -7,8 +7,8 @@ import moment from 'moment';
 
 export default function MainPage({ navigation }) {
 
-
     let testArr = Array.from({ length: 5 }, (_, i) => i + 1)
+    let todayText = moment().format('YY.MM.DD')
     const boxWrapWidRef = useRef(0); // goalBox
     const aniBoxWidRef = useRef(0); // goalSetting - Animated
     const [boxT, setBoxT] = useState([0, 0, 0, 0, 0])
@@ -121,7 +121,7 @@ export default function MainPage({ navigation }) {
     return (
         <View style={styles.mainPageWrap}>
             <View style={styles.mainPageHead}>
-                <Text style={styles.mainPageTitle}>Today (24.09.06)</Text>
+                <Text style={styles.mainPageTitle}>Today ({todayText})</Text>
             </View>
             <View style={styles.mainPageBody}>
                 {testArr?.map((val, idx) => RenderComponent(val, idx))}
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     mainPageGoalPart1: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 0, 255, 0.16)'
+        // backgroundColor: 'rgba(255, 0, 255, 0.16)'
     },
     mainPageGoalResult: {
         width: 20,
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     mainPageGoalPart3: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'rgba(255, 0, 255, 0.16)',
+        // backgroundColor: 'rgba(255, 0, 255, 0.16)',
         justifyContent: 'space-around',
         alignContent: 'center'
     },

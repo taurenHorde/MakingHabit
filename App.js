@@ -14,6 +14,8 @@ import LoginPage from './components/LoginPage';
 import JoinPage from './components/JoinPage';
 import MainPage from './components/MainPage';
 import HistoryPage from './components/History';
+import MyPage from './components/MyPage';
+import HabitPage from './components/inMyPage/HabitPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,11 +29,38 @@ function UnderTabNavigator() {
         headerShown: false
       }}
     >
-      <Tab.Screen name='TODAY' component={MainPage} />
-      <Tab.Screen name='HISTORY' component={HistoryPage} />
+      <Tab.Screen name='달력' component={HistoryPage} />
+      <Tab.Screen name='메인' component={MainPage} />
+      <Tab.Screen name='내정보' component={MyPageStack}>
+
+
+      </Tab.Screen>
+
     </Tab.Navigator>
   )
 }
+
+function MyPageStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName='MYPAGE'
+      screenOptions={{
+        animation: 'fade',
+        headerShown: false
+      }}
+    >
+      <Stack.Screen
+        name="MYPAGE"
+        component={MyPage}
+      />
+      <Stack.Screen
+        name="HABITPAGE"
+        component={HabitPage}
+      />
+    </Stack.Navigator>
+  )
+}
+
 
 export default function App() {
 
