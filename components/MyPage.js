@@ -1,6 +1,6 @@
 
 
-import { StyleSheet, Text, View, } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
 
@@ -9,7 +9,7 @@ import { fontTheme } from '../theme/font';
 
 export default function MyPage({ navigation }) {
 
-
+  const clickToHabit = () => navigation.navigate('HABITPAGE');
 
   return (
     <View style={styles.myPageWrap}>
@@ -18,16 +18,19 @@ export default function MyPage({ navigation }) {
       </View>
       <View style={styles.myPageBody}>
 
-        <View style={styles.myPageMenuBox}>
+        <TouchableOpacity 
+        style={styles.myPageMenuBox}
+        onPress={clickToHabit}
+        >
           <Text style={styles.myPageMenuText}>
             습관 생성/변경/삭제
           </Text>
-        </View>
-        <View style={styles.myPageMenuBox}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.myPageMenuBox}>
           <Text style={styles.myPageMenuText}>
             회원정보 수정
           </Text>
-        </View>
+        </TouchableOpacity>
 
       </View>
       <View style={styles.myPageFooter}></View>

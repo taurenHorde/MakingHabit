@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { darkTheme, lightTheme } from '../../theme/color';
 import { fontTheme } from '../../theme/font';
 
@@ -9,41 +9,42 @@ export default function HabitPage({ navigation }) {
 
 
   return (
-    <View style={styles.HabitPageWrap}>
-      <View style={styles.HabitPageHead}>
-        <Text style={styles.HabitPageTitle}>정예타우렌족장님의 HabitPage</Text>
+    <View style={styles.habitPageWrap}>
+      <View style={styles.habitPageHead}>
+        <Text style={styles.habitPagePreBut}>앞{/* 나중에 화살표로 바꾸기 */}</Text>
+        <Text style={styles.habitPageTitle}>나의 습관 목표</Text>
       </View>
-      <View style={styles.HabitPageBody}>
+      <View style={styles.habitPageBody}>
 
-        <View style={styles.HabitPageMenuBox}>
-          <Text style={styles.HabitPageMenuText}>
-            습관 생성/변경/삭제
-          </Text>
-        </View>
-        <View style={styles.HabitPageMenuBox}>
-          <Text style={styles.HabitPageMenuText}>
-            회원정보 수정
-          </Text>
-        </View>
+        <TouchableOpacity style={styles.habitPageListBox}>
+          <Text style={styles.habitPageListText}>다이어트</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.habitPageListBox}>
+          <Text style={styles.habitPageListText}>영어공부</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.habitPageListBox}>
+          <Text style={styles.habitPageListText}>습관 생성</Text>
+        </TouchableOpacity>
 
       </View>
-      <View style={styles.HabitPageFooter}></View>
+      <View style={styles.habitPageFooter}></View>
     </View >
   );
 }
 
 const styles = StyleSheet.create({
-  HabitPageWrap: {
+  habitPageWrap: {
     flex: 1,
     backgroundColor: darkTheme.bg,
   },
-  HabitPageHead: {
+  habitPageHead: {
     flexBasis: "15%",
     flexShrink: 0,
-    justifyContent: 'flex-end',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end'
   },
-  HabitPageTitle: {
+  habitPagePreBut: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     fontSize: 20,
@@ -51,14 +52,22 @@ const styles = StyleSheet.create({
     color: darkTheme.color,
     fontFamily: fontTheme.noto600
   },
-  HabitPageBody: {
+  habitPageTitle: {
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    fontSize: 20,
+    lineHeight: 30,
+    color: darkTheme.color,
+    fontFamily: fontTheme.noto600
+  },
+  habitPageBody: {
     flexGrow: 1,
     flexShrink: 1,
     padding: 15,
     marginTop: 10,
     alignItems: 'center',
   },
-  HabitPageMenuBox: {
+  habitPageListBox: {
     paddingHorizontal: 20,
     marginVertical: 5,
     width: '100%',
@@ -67,10 +76,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 15
   },
-  HabitPageMenuText: {
-    fontSize: 15,
+  habitPageListText: {
+    fontSize: 15
   },
-  HabitPageFooter: {
+  habitPageFooter: {
     flexGrow: 1,
     flexShrink: 1
   },
