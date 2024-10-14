@@ -19,7 +19,7 @@ export default function JoinPage({ navigation }) {
         <View style={styles.joinPageInputBox}>
           <Text style={styles.joinPageInputText}>아이디</Text>
           <TextInput
-            style={styles.joinPageInput}
+            style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
             placeholder='검증내용'
           />
@@ -27,7 +27,7 @@ export default function JoinPage({ navigation }) {
         <View style={styles.joinPageInputBox}>
           <Text style={styles.joinPageInputText}>닉네임</Text>
           <TextInput
-            style={styles.joinPageInput}
+            style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
             placeholder='검증내용'
           />
@@ -35,7 +35,7 @@ export default function JoinPage({ navigation }) {
         <View style={styles.joinPageInputBox}>
           <Text style={styles.joinPageInputText}>비밀번호</Text>
           <TextInput
-            style={styles.joinPageInput}
+            style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
             placeholder='검증내용'
           />
@@ -43,7 +43,7 @@ export default function JoinPage({ navigation }) {
         <View style={styles.joinPageInputBox}>
           <Text style={styles.joinPageInputText}>비밀번호 확인</Text>
           <TextInput
-            style={styles.joinPageInput}
+            style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
             placeholder='검증내용'
           />
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     color: darkTheme.color
   },
-  joinPageInput: {
+  joinPageInputTextInput: {
     borderWidth: 1,
     marginTop: 5,
     paddingHorizontal: 10,

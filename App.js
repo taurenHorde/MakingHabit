@@ -16,6 +16,7 @@ import MainPage from './components/MainPage';
 import HistoryPage from './components/History';
 import MyPage from './components/MyPage';
 import HabitPage from './components/inMyPage/HabitPage';
+import MakeHabitPage from './components/inMyPage/MakeHabitPage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,7 +24,7 @@ const Tab = createBottomTabNavigator();
 function UnderTabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName='Main'
+      initialRouteName='메인'
       screenOptions={{
         animation: 'fade',
         headerShown: false
@@ -56,6 +57,10 @@ function MyPageStack() {
       <Stack.Screen
         name="HABITPAGE"
         component={HabitPage}
+      />
+      <Stack.Screen
+        name="MAKEHABITPAGE"
+        component={MakeHabitPage}
       />
     </Stack.Navigator>
   )
@@ -137,9 +142,12 @@ export default function App() {
 // 대체, RN "FlatList" ,"SectionList" , "RecyclerListView"
 // SectionList는 기능이 다르다고 함
 
-// FlatList - 간편, 정보많음, 데이터많아도 성능 괜츈 / 리스트가 길면 복잡해짐, 단순한 가상화 기능만 있음.
+// 5.FlatList - 간편, 정보많음, 데이터많아도 성능 괜츈 / 리스트가 길면 복잡해짐, 단순한 가상화 기능만 있음. - 사용
 // RecyclerListView - 많은리스트사용시 성능좋음, 기능많음, 리스트관리 용이 / 설정 복잡, API 사용이 어려움
 
-
-// 5. redux-toolkit 
+// 6. redux-toolkit 
 // index.js 가 없다. Expo는 엔트리포인트가 App.js라고 해서 여기에 적용,
+
+// 7. datetimepicker (https://github.com/react-native-datetimepicker/datetimepicker)
+// npm install @react-native-community/datetimepicker --save
+// 추천하는 Android 사용 방법이 있지만, Ios/Android 둘다 적용되는 방법으로 사용할 예정;
