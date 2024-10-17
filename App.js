@@ -17,6 +17,7 @@ import HistoryPage from './components/History';
 import MyPage from './components/MyPage';
 import HabitPage from './components/inMyPage/HabitPage';
 import MakeHabitPage from './components/inMyPage/MakeHabitPage';
+import EditProfilePage from './components/inMyPage/EditProfilePage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,24 +45,30 @@ function UnderTabNavigator() {
 function MyPageStack() {
   return (
     <Stack.Navigator
-      initialRouteName='MYPAGE'
+      initialRouteName='MyPage'
       screenOptions={{
         animation: 'fade',
         headerShown: false
       }}
     >
       <Stack.Screen
-        name="MYPAGE"
+        name="MyPage"
         component={MyPage}
       />
       <Stack.Screen
-        name="HABITPAGE"
-        component={HabitPage}
+        name="HabitPage"
+        component={HabitPage} // 습관 생성/변경/삭제 페이지
       />
       <Stack.Screen
-        name="MAKEHABITPAGE"
-        component={MakeHabitPage}
+        name="MakeHabitPage"
+        component={MakeHabitPage} // 습관 생성 페이지
       />
+
+      <Stack.Screen
+        name="EditProfilePage"
+        component={EditProfilePage} // 습관 생성 페이지
+      />
+
     </Stack.Navigator>
   )
 }

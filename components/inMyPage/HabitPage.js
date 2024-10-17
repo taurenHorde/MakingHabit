@@ -7,7 +7,7 @@ import { fontTheme } from '../../theme/font';
 
 export default function HabitPage({ navigation }) {
 
-  const clickToMakeHabit = () => navigation.navigate('MAKEHABITPAGE');
+  const clickToMakeHabit = () => navigation.navigate('MakeHabitPage');
 
   return (
     <View style={styles.habitPageWrap}>
@@ -17,12 +17,9 @@ export default function HabitPage({ navigation }) {
       </View>
       <View style={styles.habitPageBody}>
 
-        <TouchableOpacity style={styles.habitPageListBox}>
-          <Text style={styles.habitPageListText}>다이어트</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-        style={styles.habitPageListBox}
-        onPress={clickToMakeHabit}
+        <TouchableOpacity
+          style={styles.habitPageListBox}
+          onPress={clickToMakeHabit}
         >
           <Text style={styles.habitPageListText}>새로운 습관 만들기</Text>
         </TouchableOpacity>
