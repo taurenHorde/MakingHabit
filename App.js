@@ -31,11 +31,9 @@ function UnderTabNavigator() {
         headerShown: false
       }}
     >
-      <Tab.Screen name='달력' component={HistoryPage} />
       <Tab.Screen name='메인' component={MainPage} />
+      <Tab.Screen name='달력' component={HistoryPage} />
       <Tab.Screen name='내정보' component={MyPageStack}>
-
-
       </Tab.Screen>
 
     </Tab.Navigator>
