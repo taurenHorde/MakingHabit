@@ -74,6 +74,16 @@ function MyPageStack() {
 
 export default function App() {
 
+  useEffect(() => {
+    fetch('http://172.30.1.78:9090/api/test', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((res) => console.log('성공'))
+      .catch((err) => console.log('실패'))
+  }, []);
+
   const [fontsLoaded] = useFonts({
     'notoSans200': require('./assets/fonts/NotoSansKR-ExtraLight.ttf'),
     'notoSans300': require('./assets/fonts/NotoSansKR-Light.ttf'),
@@ -123,7 +133,7 @@ export default function App() {
           {/* <StatusBar backgroundColor='white' /> */}
         </NavigationContainer>
       </Provider>
-    );
+    )
   }
 }
 
@@ -156,3 +166,5 @@ export default function App() {
 // 7. datetimepicker (https://github.com/react-native-datetimepicker/datetimepicker)
 // npm install @react-native-community/datetimepicker --save
 // 추천하는 Android 사용 방법이 있지만, Ios/Android 둘다 적용되는 방법으로 사용할 예정;
+
+/// 8. npm install @tanstack/react-query
