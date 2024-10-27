@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
-import apiClient from './function/Api';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import EnterPage from './components/EnterPage';
 import LoginPage from './components/LoginPage';
@@ -22,6 +22,7 @@ import EditProfilePage from './components/inMyPage/EditProfilePage';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const queryClient = new QueryClient();
 
 function UnderTabNavigator() {
   return (
@@ -75,10 +76,6 @@ function MyPageStack() {
 
 export default function App() {
 
-  useEffect(() => {
-    apiClient.get('/api/test').then(res => console.log(res));
-  }, []);
-
   const [fontsLoaded] = useFonts({
     'notoSans200': require('./assets/fonts/NotoSansKR-ExtraLight.ttf'),
     'notoSans300': require('./assets/fonts/NotoSansKR-Light.ttf'),
@@ -86,6 +83,7 @@ export default function App() {
     'notoSans600': require('./assets/fonts/NotoSansKR-SemiBold.ttf'),
     'notoSans700': require('./assets/fonts/NotoSansKR-Bold.ttf'),
   })
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -95,39 +93,41 @@ export default function App() {
 
   if (!loading) {
     return (
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName='Enter'
-            screenOptions={{
-              animation: 'fade',
-              headerShown: false
-              // screenOptions 및 transitionSpec 추후에 다시 설정
-            }}
-          >
-            <Stack.Screen
-              name="Enter"
-              component={EnterPage}
-            />
-            <Stack.Screen
-              name="Login"
-              component={LoginPage}
-            />
-            <Stack.Screen
-              name="Join"
-              component={JoinPage}
-            />
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName='Enter'
+              screenOptions={{
+                animation: 'fade',
+                headerShown: false
+                // screenOptions 및 transitionSpec 추후에 다시 설정
+              }}
+            >
+              <Stack.Screen
+                name="Enter"
+                component={EnterPage}
+              />
+              <Stack.Screen
+                name="Login"
+                component={LoginPage}
+              />
+              <Stack.Screen
+                name="Join"
+                component={JoinPage}
+              />
 
-            <Stack.Screen
-              name="Signed"
-              // component={MainPage}
-              component={UnderTabNavigator}
-            />
+              <Stack.Screen
+                name="Signed"
+                // component={MainPage}
+                component={UnderTabNavigator}
+              />
 
-          </Stack.Navigator>
-          {/* <StatusBar backgroundColor='white' /> */}
-        </NavigationContainer>
-      </Provider>
+            </Stack.Navigator>
+            {/* <StatusBar backgroundColor='white' /> */}
+          </NavigationContainer>
+        </Provider>
+      </QueryClientProvider>
     )
   }
 }
@@ -164,3 +164,4 @@ export default function App() {
 
 /// 8. npm install @tanstack/react-query
 /// 9. npm install axios
+/// 10. npm install joi

@@ -1,12 +1,72 @@
 
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
+import { useState } from 'react';
 import Checkbox from 'expo-checkbox';
+import validateJoin from '../function/validation';
+import { apiJoinAccount } from './../function/api'
+import { useMutation } from '@tanstack/react-query';
+
 
 export default function JoinPage({ navigation }) {
 
+  const joinMutation = useMutation({
+    mutationFn: apiJoinAccount,
+    onSuccess: (data) => { console.log(data) },
+    onError: (error) => { console.log(error) }
+  })
+
+
+  const [id, setId] = useState('');
+  const onChangeId = (event) => setId(event)
+  const [nickname, setNickname] = useState('');
+  const onChangeNickname = (event) => setNickname(event)
+  const [pw1, setPw1] = useState('');
+  const onChangePw1 = (event) => setPw1(event)
+  const [pw2, setPw2] = useState('');
+  const onChangePw2 = (event) => setPw2(event)
+  const [checked, setChecked] = useState([false, false, false]);
+  const onChangeCheckbox = (idx) => setChecked(preChecked => preChecked.map((c, i) => i === idx ? !c : c))
+  const onChangeCheckboxAll = () => checked.includes(false) ? setChecked([true, true, true]) : setChecked([false, false, false])
+
+  const clickToJoin = () => {
+    if (id === "" || nickname === "" || pw1 === "" || pw2 === "") return alertToJoin('input');
+    if (!checked[0] || !checked[1]) return alertToJoin('check')
+    const joinInputData = {
+      id: id,
+      nickname: nickname,
+      pw1: pw1,
+      pw2: pw2
+    }
+    const validateResult = validateJoin(joinInputData)
+    if (!validateResult) return;
+    return joinMutation.mutate({ ...joinInputData, checkbox: checked })
+  }
+
+
   const clickToEnter = () => navigation.navigate('Enter');
+  const alertToJoin = (type) => {
+    if (type === 'input') {
+      Alert.alert(
+        "알림",
+        "입력 란에 빈 칸 없이 입력해주시길 바랍니다.",
+        [
+          { text: '확인' }
+        ],
+        { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
+      )
+    } else if (type === 'check') {
+      Alert.alert(
+        "알림",
+        "필수 항목 동의해주시길 바랍니다.",
+        [
+          { text: '확인' }
+        ],
+        { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
+      )
+    }
+  }
 
   return (
     <View style={styles.joinPageWrap}>
@@ -21,7 +81,9 @@ export default function JoinPage({ navigation }) {
           <TextInput
             style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
-            placeholder='검증내용'
+            onChangeText={onChangeId}
+            value={id}
+            placeholder='글자 수 5 ~ 19 내 영어 / 숫자'
           />
         </View>
         <View style={styles.joinPageInputBox}>
@@ -29,7 +91,9 @@ export default function JoinPage({ navigation }) {
           <TextInput
             style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
-            placeholder='검증내용'
+            onChangeText={onChangeNickname}
+            value={nickname}
+            placeholder='글자 수 3 ~ 10 내 한글 / 영어 / 숫자'
           />
         </View>
         <View style={styles.joinPageInputBox}>
@@ -37,7 +101,10 @@ export default function JoinPage({ navigation }) {
           <TextInput
             style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
-            placeholder='검증내용'
+            onChangeText={onChangePw1}
+            value={pw1}
+            placeholder='포트폴리오 편의상 검증 절차 생략하였습니다.'
+            secureTextEntry={true}
           />
         </View>
         <View style={styles.joinPageInputBox}>
@@ -45,7 +112,10 @@ export default function JoinPage({ navigation }) {
           <TextInput
             style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
-            placeholder='검증내용'
+            onChangeText={onChangePw2}
+            value={pw2}
+            placeholder='포트폴리오 편의상 검증 절차 생략하였습니다.'
+            secureTextEntry={true}
           />
         </View>
         <View style={styles.joinPageCheckWrap}>
@@ -60,6 +130,8 @@ export default function JoinPage({ navigation }) {
             <Checkbox
               style={styles.joinPageCheckBox}
               color='white'
+              value={!checked.includes(false)}
+              onValueChange={onChangeCheckboxAll}
             />
             <Text style={{ ...styles.joinPageCheckText, fontSize: 15, lineHeight: 20 }}> 전체 동의</Text>
           </View>
@@ -68,27 +140,36 @@ export default function JoinPage({ navigation }) {
             <Checkbox
               style={styles.joinPageCheckBox}
               color='white'
+              value={checked[0]}
+              onValueChange={() => onChangeCheckbox(0)}
             />
-            <Text style={{ ...styles.joinPageCheckText, fontSize: 12, lineHeight: 15 }}> 약관뭐시기 저시기 뭐시기 저시기</Text>
+            <Text style={{ ...styles.joinPageCheckText, fontSize: 12, lineHeight: 15 }}> 예) 필수항목 </Text>
           </View>
           <View
             style={styles.joinPageCheckView}>
             <Checkbox
               style={styles.joinPageCheckBox}
               color='white'
+              value={checked[1]}
+              onValueChange={() => onChangeCheckbox(1)}
             />
-            <Text style={{ ...styles.joinPageCheckText, fontSize: 12, lineHeight: 15 }}> 약관뭐시기 저시기 뭐시기 저시기</Text>
+            <Text style={{ ...styles.joinPageCheckText, fontSize: 12, lineHeight: 15 }}> 예) 필수항목</Text>
           </View>
           <View
             style={styles.joinPageCheckView}>
             <Checkbox
               style={styles.joinPageCheckBox}
               color='white'
+              value={checked[2]}
+              onValueChange={() => onChangeCheckbox(2)}
             />
-            <Text style={{ ...styles.joinPageCheckText, fontSize: 12, lineHeight: 15 }}> 약관뭐시기 저시기 뭐시기 저시기</Text>
+            <Text style={{ ...styles.joinPageCheckText, fontSize: 12, lineHeight: 15 }}> 예) 선택항목</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.joinPageButton}>
+        <TouchableOpacity
+          style={styles.joinPageButton}
+          onPress={clickToJoin}
+        >
           <Text style={styles.joinPageInputButtonText}>회원가입</Text>
         </TouchableOpacity>
         <TouchableOpacity

@@ -1,2 +1,18 @@
 ** 습관만들기 (프로젝트8)
-*시작 0905 ~
+* server 연결 241027
+server 는 다 완성 후 git push
+- 감사합니다.
+
+
+- 사용 라이브러리 및 RN(Expo) Component API 등
+// 기록 - 
+// 1. React Navigation(https://reactnative.dev/docs/navigation#react-navigation)
+// 2. npx expo install expo-font (https://docs.expo.dev/versions/latest/sdk/font/)
+// 3. bottom-tabs 
+// 4. Moment
+// 5.FlatList
+// 6. redux-toolkit 
+// 7. datetimepicker (https://github.com/react-native-datetimepicker/datetimepicker)
+/// 8. npm install @tanstack/react-query
+/// 9. npm install axios
+/// 10. npm install joi
