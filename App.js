@@ -8,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
+import apiClient from './function/Api';
 
 import EnterPage from './components/EnterPage';
 import LoginPage from './components/LoginPage';
@@ -75,13 +76,7 @@ function MyPageStack() {
 export default function App() {
 
   useEffect(() => {
-    fetch('http://172.30.1.78:9090/api/test', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((res) => res.json())
-      .then((res) => console.log('성공'))
-      .catch((err) => console.log('실패'))
+    apiClient.get('/api/test').then(res => console.log(res));
   }, []);
 
   const [fontsLoaded] = useFonts({
@@ -168,3 +163,4 @@ export default function App() {
 // 추천하는 Android 사용 방법이 있지만, Ios/Android 둘다 적용되는 방법으로 사용할 예정;
 
 /// 8. npm install @tanstack/react-query
+/// 9. npm install axios
