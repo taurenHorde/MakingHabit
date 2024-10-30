@@ -13,8 +13,27 @@ export default function JoinPage({ navigation }) {
 
   const joinMutation = useMutation({
     mutationFn: apiJoinAccount,
-    onSuccess: (data) => { console.log(data) },
-    onError: (error) => { console.log(error) }
+    onSuccess: (data) => {
+      Alert.alert(
+        "알림",
+        "회원 가입이 완료 되었습니다."
+        [
+        { text: "확인", onPress: () => navigation.navigate('Login') }
+        ],
+        { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
+      )
+    },
+    onError: (error) => {
+      const status = error.response?.status;
+      const errorData = error.response?.data.details;
+      if (status === 400) {
+        if (errorData.errCode === 1) return alertToJoin(errorData.errResData?.type) // 데이터 누락
+        if (errorData.errCode === 2) return alertToJoin(errorData.errResData?.type, errorData.errResData?.text) // 데이터 검증 오류
+        if (errorData.errCode === 3) return alertToJoin(errorData.errResData?.type, errorData.errResData?.text) // 중복된 데이터
+      } else if (status === 500) {
+        if (errorData.errCode === 4) return alertToJoin(errorData.errResData?.type, errorData.errResData?.text) // DB insert 오류
+      }
+    }
   })
 
 
@@ -40,32 +59,22 @@ export default function JoinPage({ navigation }) {
       pw2: pw2
     }
     const validateResult = validateJoin(joinInputData)
-    if (!validateResult) return;
+    if (validateResult.error) return alertToJoin('wrong', validateResult.error.details[0].message)
     return joinMutation.mutate({ ...joinInputData, checkbox: checked })
   }
 
-
   const clickToEnter = () => navigation.navigate('Enter');
-  const alertToJoin = (type) => {
-    if (type === 'input') {
-      Alert.alert(
-        "알림",
-        "입력 란에 빈 칸 없이 입력해주시길 바랍니다.",
-        [
-          { text: '확인' }
-        ],
-        { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
-      )
-    } else if (type === 'check') {
-      Alert.alert(
-        "알림",
-        "필수 항목 동의해주시길 바랍니다.",
-        [
-          { text: '확인' }
-        ],
-        { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
-      )
-    }
+  const alertToJoin = (type, message) => {
+    Alert.alert(
+      "알림",
+      type === 'input' ? "입력 란에 빈 칸 없이 입력해주시길 바랍니다."
+        : type === 'check' ? "필수 항목 체크 해주시길 바랍니다."
+          : message,
+      [
+        { text: '확인' }
+      ],
+      { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
+    )
   }
 
   return (

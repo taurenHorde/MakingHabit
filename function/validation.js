@@ -23,19 +23,8 @@ const joinSchema = Joi.object({
 
 
 const validateJoin = (data) => {
-    const { error } = joinSchema.validate(data)
-    if (error) {
-        Alert.alert(
-            "알림",
-            `${error.details[0].message}`,
-            [
-                { text: '확인' }
-            ],
-            { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
-        )
-        return false
-    }
-    return true
+    const result = joinSchema.validate(data)
+    return result
 }
 
 

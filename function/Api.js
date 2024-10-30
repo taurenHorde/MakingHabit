@@ -8,6 +8,6 @@ const apiClient = axios.create({
 
 export const apiJoinAccount = async (data) => {
     const result = await apiClient.post('/account/join', data);
-    return result.data
+    return result
 }
 
