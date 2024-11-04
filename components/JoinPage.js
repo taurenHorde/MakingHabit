@@ -5,6 +5,7 @@ import { fontTheme } from '../theme/font';
 import { useState } from 'react';
 import Checkbox from 'expo-checkbox';
 import validateJoin from '../function/validation';
+import { alertOneButton, alertOneButtonNavi } from '../function/functions';
 import { apiJoinAccount } from './../function/api'
 import { useMutation } from '@tanstack/react-query';
 
@@ -14,31 +15,25 @@ export default function JoinPage({ navigation }) {
   const joinMutation = useMutation({
     mutationFn: apiJoinAccount,
     onSuccess: (data) => {
-      Alert.alert(
-        "알림",
-        "회원 가입이 완료 되었습니다."
-        [
-        { text: "확인", onPress: () => navigation.navigate('Login') }
-        ],
-        { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
-      )
+      return alertOneButtonNavi('회원 가입이 완료 되었습니다.', navigation, 'Login')
     },
     onError: (error) => {
       const status = error.response?.status;
       const errorData = error.response?.data.details;
+
       if (status === 400) {
-        if (errorData.errCode === 1) return alertToJoin(errorData.errResData?.type) // 데이터 누락
-        if (errorData.errCode === 2) return alertToJoin(errorData.errResData?.type, errorData.errResData?.text) // 데이터 검증 오류
-        if (errorData.errCode === 3) return alertToJoin(errorData.errResData?.type, errorData.errResData?.text) // 중복된 데이터
+        if (errorData.errCode === 1) return alertOneButton("입력 란에 빈 칸 없이 입력해주시길 바랍니다.") // 데이터 누락
+        if (errorData.errCode === 2) return alertOneButton(errorData.errResData?.text) // 데이터 검증 오류
+        if (errorData.errCode === 3) return alertOneButton(errorData.errResData?.text) // 중복된 데이터
       } else if (status === 500) {
-        if (errorData.errCode === 4) return alertToJoin(errorData.errResData?.type, errorData.errResData?.text) // DB insert 오류
+        if (errorData.errCode === 4) return alertOneButton(errorData.errResData?.text) // DB insert 오류
       }
     }
   })
 
 
-  const [id, setId] = useState('');
-  const onChangeId = (event) => setId(event)
+  const [username, setUsername] = useState('');
+  const onChangeUsername = (event) => setUsername(event)
   const [nickname, setNickname] = useState('');
   const onChangeNickname = (event) => setNickname(event)
   const [pw1, setPw1] = useState('');
@@ -50,32 +45,22 @@ export default function JoinPage({ navigation }) {
   const onChangeCheckboxAll = () => checked.includes(false) ? setChecked([true, true, true]) : setChecked([false, false, false])
 
   const clickToJoin = () => {
-    if (id === "" || nickname === "" || pw1 === "" || pw2 === "") return alertToJoin('input');
-    if (!checked[0] || !checked[1]) return alertToJoin('check')
+    if (username === "" || nickname === "" || pw1 === "" || pw2 === "") return alertOneButton("입력 란에 빈 칸 없이 입력해주시길 바랍니다.");
+    if (!checked[0] || !checked[1]) return alertOneButton("필수 항목 체크 해주시길 바랍니다.")
     const joinInputData = {
-      id: id,
+      username: username,
       nickname: nickname,
       pw1: pw1,
       pw2: pw2
     }
     const validateResult = validateJoin(joinInputData)
-    if (validateResult.error) return alertToJoin('wrong', validateResult.error.details[0].message)
+    if (validateResult.error) return alertOneButton(validateResult.error.details[0].message)
     return joinMutation.mutate({ ...joinInputData, checkbox: checked })
   }
 
   const clickToEnter = () => navigation.navigate('Enter');
-  const alertToJoin = (type, message) => {
-    Alert.alert(
-      "알림",
-      type === 'input' ? "입력 란에 빈 칸 없이 입력해주시길 바랍니다."
-        : type === 'check' ? "필수 항목 체크 해주시길 바랍니다."
-          : message,
-      [
-        { text: '확인' }
-      ],
-      { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
-    )
-  }
+
+
 
   return (
     <View style={styles.joinPageWrap}>
@@ -90,8 +75,8 @@ export default function JoinPage({ navigation }) {
           <TextInput
             style={styles.joinPageInputTextInput}
             color={darkTheme.bg}
-            onChangeText={onChangeId}
-            value={id}
+            onChangeText={onChangeUsername}
+            value={username}
             placeholder='글자 수 5 ~ 19 내 영어 / 숫자'
           />
         </View>

@@ -4,7 +4,7 @@ import Joi from 'joi';
 
 
 const joinSchema = Joi.object({
-    id: Joi.string().pattern(/^[a-z][a-z0-9]*$/).min(5).max(18).required()
+    username: Joi.string().pattern(/^[a-z][a-z0-9]*$/).min(5).max(18).required()
         .messages({
             'string.pattern.base': '아이디는 영어(대문자 불가)와 숫자만 가능합니다.',
             'string.min': '아이디는 최소 5자 이상이어야 합니다.',
