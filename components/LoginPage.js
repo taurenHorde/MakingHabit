@@ -2,14 +2,21 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 export default function LoginPage({ navigation }) {
 
-    const [id, setId] = useState("")
-    const [pw, setPw] = useState("")
 
-    const onChangeId = (event) => setId(event)
-    const onChangePw = (event) => setPw(event)
+
+    const [username, setUsername] = useState('');
+    const onChangeUsername = (event) => setUsername(event)
+    const [password, setPassword] = useState('');
+    const onChangePassword = (event) => setPassword(event)
+
+    const clickToLogin = () => {
+        console.log(username)
+        console.log(password)
+    }
 
     return (
         <View style={styles.loginPageWrap}>
@@ -21,8 +28,8 @@ export default function LoginPage({ navigation }) {
                     <Text style={styles.loginPageInputText}>아이디</Text>
                     <TextInput
                         style={styles.loginPageInput}
-                        onChangeText={onChangeId}
-                        value={id}
+                        onChangeText={onChangeUsername}
+                        value={username}
                         color={darkTheme.bg}
                     />
                 </View>
@@ -30,11 +37,16 @@ export default function LoginPage({ navigation }) {
                     <Text style={styles.loginPageInputText}>비밀번호</Text>
                     <TextInput
                         style={styles.loginPageInput}
-                        onChangeText={onChangePw}
-                        value={pw}
+                        onChangeText={onChangePassword}
+                        value={password}
+                        color={darkTheme.bg}
+                        secureTextEntry={true}
                     />
                 </View>
-                <TouchableOpacity style={styles.loginPageButton}>
+                <TouchableOpacity
+                    style={styles.loginPageButton}
+                    onPress={clickToLogin}
+                >
                     <Text style={styles.loginPageInputButtonText}>로그인</Text>
                 </TouchableOpacity>
                 <View style={styles.loginPageInputBox}>

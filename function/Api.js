@@ -11,3 +11,8 @@ export const apiJoinAccount = async (data) => {
     return result
 }
 
+export const apiLoginAccout = async (data) => {
+    const result = await apiClient.post('/account/login',data);
+    return result
+}
+
