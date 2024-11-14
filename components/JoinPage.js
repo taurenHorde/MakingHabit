@@ -15,7 +15,7 @@ export default function JoinPage({ navigation }) {
   const joinMutation = useMutation({
     mutationFn: apiJoinAccount,
     onSuccess: (data) => {
-      return alertOneButtonNavi('회원 가입이 완료 되었습니다.', navigation, 'Login')
+      return alertOneButtonNavi('회원 가입이 완료 되었습니다.', navigation, navigation.replace, 'Login')
     },
     onError: (error) => {
       const status = error.response?.status;
@@ -78,6 +78,7 @@ export default function JoinPage({ navigation }) {
             onChangeText={onChangeUsername}
             value={username}
             placeholder='글자 수 5 ~ 19 내 영어 / 숫자'
+            autoCapitalize='none'
           />
         </View>
         <View style={styles.joinPageInputBox}>
@@ -88,6 +89,7 @@ export default function JoinPage({ navigation }) {
             onChangeText={onChangeNickname}
             value={nickname}
             placeholder='글자 수 3 ~ 10 내 한글 / 영어 / 숫자'
+            autoCapitalize='none'
           />
         </View>
         <View style={styles.joinPageInputBox}>
@@ -99,6 +101,7 @@ export default function JoinPage({ navigation }) {
             value={pw1}
             placeholder='포트폴리오 편의상 검증 절차 생략하였습니다.'
             secureTextEntry={true}
+            autoCapitalize='none'
           />
         </View>
         <View style={styles.joinPageInputBox}>
@@ -110,6 +113,7 @@ export default function JoinPage({ navigation }) {
             value={pw2}
             placeholder='포트폴리오 편의상 검증 절차 생략하였습니다.'
             secureTextEntry={true}
+            autoCapitalize='none'
           />
         </View>
         <View style={styles.joinPageCheckWrap}>

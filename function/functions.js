@@ -14,13 +14,14 @@ export const alertOneButton = (message) => {
     )
 }
 
-export const alertOneButtonNavi = (message, navigation, address) => {
+export const alertOneButtonNavi = (message, navigation, naviProps, address) => {
     return Alert.alert(
         "알림",
         `${message}`,
         [
-            { text: '확인', onPress: () => navigation.navigate(`${address}`) }
+            { text: '확인', onPress: () => naviProps.call(navigation, `${address}`) }
         ],
         { cancelable: false } // 외부영역 클릭 시 닫힘 기능 
     )
 }
+

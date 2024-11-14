@@ -3,9 +3,31 @@ import { darkTheme, lightTheme } from '../theme/color';
 import { fontTheme } from '../theme/font';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { alertOneButton } from '../function/functions';
+import { apiLoginAccout } from '../function/api';
 
 export default function LoginPage({ navigation }) {
 
+    const loginMutation = useMutation({
+        mutationFn: apiLoginAccout,
+        onSuccess: (data) => {
+            return navigation.reset({
+                index: 0,
+                routes: [{ name: 'Signed' }]
+            })
+        },
+        onError: (error) => {
+            const status = error.response?.status;
+            const errorData = error.response?.data.details;
+
+            if (status === 400) {
+                if (errorData.errCode === 1) return alertOneButton("입력 란에 빈 칸 없이 입력해주시길 바랍니다.") // 데이터 누락
+                if (errorData.errCode === 2) return alertOneButton("아이디 또는 비밀번호가 맞지 않습니다.") // 데이터 검증 오류
+            } else if (status === 500) {
+                if (errorData.errCode === 4) return alertOneButton(errorData.errResData?.text) // DB insert 오류
+            }
+        }
+    })
 
 
     const [username, setUsername] = useState('');
@@ -14,8 +36,8 @@ export default function LoginPage({ navigation }) {
     const onChangePassword = (event) => setPassword(event)
 
     const clickToLogin = () => {
-        console.log(username)
-        console.log(password)
+        if (username === "" || password === "") return alertOneButton("입력 란에 빈 칸 없이 입력해주시길 바랍니다.");
+        return loginMutation.mutate({ username, password })
     }
 
     return (
@@ -31,6 +53,7 @@ export default function LoginPage({ navigation }) {
                         onChangeText={onChangeUsername}
                         value={username}
                         color={darkTheme.bg}
+                        autoCapitalize='none'
                     />
                 </View>
                 <View style={styles.loginPageInputBox}>
@@ -41,6 +64,7 @@ export default function LoginPage({ navigation }) {
                         value={password}
                         color={darkTheme.bg}
                         secureTextEntry={true}
+                        autoCapitalize='none'
                     />
                 </View>
                 <TouchableOpacity
