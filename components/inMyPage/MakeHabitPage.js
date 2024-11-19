@@ -4,10 +4,23 @@ import { darkTheme, lightTheme } from '../../theme/color';
 import { fontTheme } from '../../theme/font';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
+import { apiAddHabit } from '../../function/api';
+import { useMutation } from '@tanstack/react-query';
 import moment from 'moment';
 
-
 export default function MakeHabitPage({ navigation }) {
+
+  const addMutation = useMutation({
+    mutationFn: apiAddHabit,
+    onSuccess: (data) => {
+      console.log('성공')
+    },
+    onError: (error) => {
+      const status = error.response?.status;
+      const errorData = error.response?.data.details;
+      console.log(errorData)
+    }
+  })
 
   const [name, setName] = useState('')
   const onChangeName = (event) => setName(event)
@@ -27,7 +40,7 @@ export default function MakeHabitPage({ navigation }) {
   const [selectedDayBut, setSelectedDayBut] = useState(0); // 순서대로 / style 변화용
   const [days, setDays] = useState([false, false, false, false, false, false, false]) // 일요일 ~ 토요일 순
 
-  const [access, setAccess] = useState(0)
+  const [access, setAccess] = useState(0) // 0 전체공개 / 1 친구공개 / 2 비공개
 
 
 
@@ -89,6 +102,25 @@ export default function MakeHabitPage({ navigation }) {
     >
       {text}
     </Text>
+  }
+
+  const clickToMakeHabit = () => {
+    if (name === "") return console.log('제목')
+    if (!hasDate1 || !hasDate2) return console.log('기간 미입력')
+    if (moment(date2).diff(date1, 'days') <= 0) return console.log('기간 설정 오류')
+    if (!days.includes(true)) return console.log('요일 미입력')
+    if (goal === "") return console.log('목표')
+
+    return addMutation.mutate({
+      title: name,
+      date: {
+        start: date1,
+        end: date2
+      },
+      goal: goal,
+      days: days,
+      access: access
+    })
   }
 
 
@@ -298,7 +330,7 @@ export default function MakeHabitPage({ navigation }) {
                 ...styles.makeHabitPageSubmitTouchableOpacity,
                 backgroundColor: '#2196F3'
               }}
-              onPress={() => console.log('생성')}
+              onPress={clickToMakeHabit}
             >
               <Text style={styles.makeHabitPageSubmitButtonText}>
                 생성

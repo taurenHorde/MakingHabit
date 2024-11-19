@@ -5,14 +5,23 @@ const apiClient = axios.create({
 })
 
 
+// Account -
 
 export const apiJoinAccount = async (data) => {
     const result = await apiClient.post('/account/join', data);
     return result
 }
 
-export const apiLoginAccout = async (data) => {
-    const result = await apiClient.post('/account/login',data);
+export const apiLoginAccount = async (data) => {
+    const result = await apiClient.post('/account/login', data);
     return result
 }
 
+
+
+// Habit -
+
+export const apiAddHabit = async (data) => {
+    const result = await apiClient.post('/habit/test', data);
+    return result
+}

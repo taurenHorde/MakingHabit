@@ -7,6 +7,8 @@ import moment from 'moment';
 
 export default function MainPage({ navigation }) {
 
+
+
     let testArr = Array.from({ length: 5 }, (_, i) => i + 1)
     let todayText = moment().format('YY.MM.DD')
     const boxWrapWidRef = useRef(0); // goalBox
@@ -16,106 +18,106 @@ export default function MainPage({ navigation }) {
 
 
 
-    const RenderComponent = (val, idx) => {
+    // const RenderComponent = (val, idx) => {
 
-        const wrapX = useRef(new Animated.Value(0)).current;
-        const wrapResponder = (distance, direction) => {
-            setBoxT(pre => {
-                const copy = [...pre]
-                copy[idx] = direction === 1 ? 0 : 1;
-                return copy
-            })
+    //     const wrapX = useRef(new Animated.Value(0)).current;
+    //     const wrapResponder = (distance, direction) => {
+    //         setBoxT(pre => {
+    //             const copy = [...pre]
+    //             copy[idx] = direction === 1 ? 0 : 1;
+    //             return copy
+    //         })
 
-            Animated.timing(wrapX, {
-                toValue: distance * direction,
-                duration: 200,
-                useNativeDriver: true,
-            }).start();
-        }
+    //         Animated.timing(wrapX, {
+    //             toValue: distance * direction,
+    //             duration: 200,
+    //             useNativeDriver: true,
+    //         }).start();
+    //     }
 
-        const pan = useRef(new Animated.ValueXY()).current;
-        const panResponder = useRef(
-            PanResponder.create({
-                onStartShouldSetPanResponder: () => true,
-                onPanResponderMove: (e, gestureState) => {
-                    const dx = gestureState.dx
-                    const limitedX = Math.max(Math.min(dx, aniBoxWidRef.current / 2), -aniBoxWidRef.current / 2);
-                    pan.setValue({ x: limitedX, y: 0 })
-                },
-                onPanResponderRelease: (e, gestureState) => {
-                    const dragCheck = Math.abs(gestureState.dx) >= (aniBoxWidRef.current / 2)
-                    Animated.spring(pan, {
-                        toValue: {
-                            x: 0, y: 0
-                        },
-                        useNativeDriver: false
-                    }).start()
-                    if (dragCheck) {
-                        if (gestureState.dx > 0) wrapResponder(boxWrapWidRef.current * 0.3, 1)
-                        if (gestureState.dx < 0) wrapResponder(boxWrapWidRef.current * 0.3, -1)
-                    }
-                },
-            }),
-        ).current;
+    //     const pan = useRef(new Animated.ValueXY()).current;
+    //     const panResponder = useRef(
+    //         PanResponder.create({
+    //             onStartShouldSetPanResponder: () => true,
+    //             onPanResponderMove: (e, gestureState) => {
+    //                 const dx = gestureState.dx
+    //                 const limitedX = Math.max(Math.min(dx, aniBoxWidRef.current / 2), -aniBoxWidRef.current / 2);
+    //                 pan.setValue({ x: limitedX, y: 0 })
+    //             },
+    //             onPanResponderRelease: (e, gestureState) => {
+    //                 const dragCheck = Math.abs(gestureState.dx) >= (aniBoxWidRef.current / 2)
+    //                 Animated.spring(pan, {
+    //                     toValue: {
+    //                         x: 0, y: 0
+    //                     },
+    //                     useNativeDriver: false
+    //                 }).start()
+    //                 if (dragCheck) {
+    //                     if (gestureState.dx > 0) wrapResponder(boxWrapWidRef.current * 0.3, 1)
+    //                     if (gestureState.dx < 0) wrapResponder(boxWrapWidRef.current * 0.3, -1)
+    //                 }
+    //             },
+    //         }),
+    //     ).current;
 
-        const aniBoxLayout = (e) => {
-            const { width } = e.nativeEvent.layout;
-            aniBoxWidRef.current = width;
-        }
+    //     const aniBoxLayout = (e) => {
+    //         const { width } = e.nativeEvent.layout;
+    //         aniBoxWidRef.current = width;
+    //     }
 
-        const boxWrapLayout = (e) => {
-            const { width } = e.nativeEvent.layout;
-            boxWrapWidRef.current = width;
-            wrapResponder(width * 0.3, 1)
-        }
+    //     const boxWrapLayout = (e) => {
+    //         const { width } = e.nativeEvent.layout;
+    //         boxWrapWidRef.current = width;
+    //         wrapResponder(width * 0.3, 1)
+    //     }
 
-        return (
-            <Animated.View
-                key={idx}
-                onLayout={boxWrapLayout}
-                style={{
-                    ...styles.mainPageGoalBox,
-                    transform: [{ translateX: wrapX }]
-                }}
-            >
-                <View style={{
-                    ...styles.mainPageGoalPart1,
-                    flexBasis: boxT[idx] === 1 ? '20%' : "none"
-                }}>
-                    <View style={styles.mainPageGoalResult}>
-                        <Text>{idx}</Text>
-                    </View>
-                    <View style={styles.mainPageGoalName}>
-                        <Text>헬스장 다녀오기!</Text>
-                    </View>
-                </View>
-                <Animated.View
-                    onLayout={aniBoxLayout}
-                    style={{
-                        ...styles.mainPageGoalSlideBox,
-                        transform: [{ translateX: pan.x }],
-                    }}
-                    {...panResponder.panHandlers}
-                >
-                    <Text style={styles.textText}>Slide</Text>
-                </Animated.View>
-                <View style={{
-                    ...styles.mainPageGoalPart3,
-                    flexBasis: boxT[idx] === 0 ? '20%' : "none"
-                }}>
-                    <View style={styles.mainPageGoalSuccess}>
-                        <Text>성공!</Text>
-                    </View>
-                    <View style={styles.mainPageGoalFail}>
-                        <Text>실패</Text>
-                    </View>
-                    <View style={styles.mainPageGoalSetting}>
-                        <Text>셋팅</Text>
-                    </View>
-                </View>
-            </Animated.View>
-        )
-    }
+    //     return (
+    //         <Animated.View
+    //             key={idx}
+    //             onLayout={boxWrapLayout}
+    //             style={{
+    //                 ...styles.mainPageGoalBox,
+    //                 transform: [{ translateX: wrapX }]
+    //             }}
+    //         >
+    //             <View style={{
+    //                 ...styles.mainPageGoalPart1,
+    //                 flexBasis: boxT[idx] === 1 ? '20%' : "none"
+    //             }}>
+    //                 <View style={styles.mainPageGoalResult}>
+    //                     <Text>{idx}</Text>
+    //                 </View>
+    //                 <View style={styles.mainPageGoalName}>
+    //                     <Text>헬스장 다녀오기!</Text>
+    //                 </View>
+    //             </View>
+    //             <Animated.View
+    //                 onLayout={aniBoxLayout}
+    //                 style={{
+    //                     ...styles.mainPageGoalSlideBox,
+    //                     transform: [{ translateX: pan.x }],
+    //                 }}
+    //                 {...panResponder.panHandlers}
+    //             >
+    //                 <Text style={styles.textText}>Slide</Text>
+    //             </Animated.View>
+    //             <View style={{
+    //                 ...styles.mainPageGoalPart3,
+    //                 flexBasis: boxT[idx] === 0 ? '20%' : "none"
+    //             }}>
+    //                 <View style={styles.mainPageGoalSuccess}>
+    //                     <Text>성공!</Text>
+    //                 </View>
+    //                 <View style={styles.mainPageGoalFail}>
+    //                     <Text>실패</Text>
+    //                 </View>
+    //                 <View style={styles.mainPageGoalSetting}>
+    //                     <Text>셋팅</Text>
+    //                 </View>
+    //             </View>
+    //         </Animated.View>
+    //     )
+    // }
 
 
     return (
@@ -124,7 +126,7 @@ export default function MainPage({ navigation }) {
                 <Text style={styles.mainPageTitle}>Today ({todayText})</Text>
             </View>
             <View style={styles.mainPageBody}>
-                {testArr?.map((val, idx) => RenderComponent(val, idx))}
+                {/* {testArr?.map((val, idx) => RenderComponent(val, idx))} */}
             </View>
             <View style={styles.mainPageFooter}>
 
@@ -139,9 +141,9 @@ const styles = StyleSheet.create({
         backgroundColor: darkTheme.bg,
     },
     mainPageHead: {
-        flexBasis: "15%",
+        flexGrow: 0.3,
         flexShrink: 0,
-        justifyContent: 'flex-end',
+        justifyContent: 'flex-end'
     },
     mainPageTitle: {
         paddingHorizontal: 20,

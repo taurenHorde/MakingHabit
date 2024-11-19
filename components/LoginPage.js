@@ -4,12 +4,12 @@ import { fontTheme } from '../theme/font';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { alertOneButton } from '../function/functions';
-import { apiLoginAccout } from '../function/api';
+import { apiLoginAccount } from '../function/api';
 
 export default function LoginPage({ navigation }) {
 
     const loginMutation = useMutation({
-        mutationFn: apiLoginAccout,
+        mutationFn: apiLoginAccount,
         onSuccess: (data) => {
             return navigation.reset({
                 index: 0,

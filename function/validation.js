@@ -28,4 +28,4 @@ const validateJoin = (data) => {
 }
 
 
-export default validateJoin;
+export default validateJoin
