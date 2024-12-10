@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
 import { apiAddHabit } from '../../function/api';
 import { useMutation } from '@tanstack/react-query';
+import { alertOneButton } from '../../function/functions';
 import moment from 'moment';
 
 export default function MakeHabitPage({ navigation }) {
@@ -18,7 +19,12 @@ export default function MakeHabitPage({ navigation }) {
     onError: (error) => {
       const status = error.response?.status;
       const errorData = error.response?.data.details;
-      console.log(errorData)
+      if (status === 400) {
+        if (errorData.errCode === 1) return alertOneButton(errorData.errResData?.text) // 데이터 누락
+        if (errorData.errCode === 2) return alertOneButton(errorData.errResData?.text) // 데이터 검증 오류
+      } else if (status === 500) {
+        if (errorData.errCode === 4) return alertOneButton(errorData.errResData?.text) // DB insert 오류
+      }
     }
   })
 
@@ -105,17 +111,21 @@ export default function MakeHabitPage({ navigation }) {
   }
 
   const clickToMakeHabit = () => {
-    if (name === "") return console.log('제목')
-    if (!hasDate1 || !hasDate2) return console.log('기간 미입력')
-    if (moment(date2).diff(date1, 'days') <= 0) return console.log('기간 설정 오류')
-    if (!days.includes(true)) return console.log('요일 미입력')
-    if (goal === "") return console.log('목표')
+    if (name === "") return alertOneButton('제목을 입력해주세요.')
+    if (!hasDate1 || !hasDate2) return alertOneButton('기간을 설정해주세요.')
+    if (moment(date2).diff(date1, 'days') <= 0) return alertOneButton('기간 설정을 확인해주세요.')
+    if (!days.includes(true)) return alertOneButton('요일을 설정해주세요.')
+    if (goal === "") return alertOneButton('목표를 입력해주세요.')
 
     return addMutation.mutate({
       title: name,
       date: {
         start: date1,
         end: date2
+      },
+      dateCheck: {
+        start: hasDate1,
+        end: hasDate2
       },
       goal: goal,
       days: days,
