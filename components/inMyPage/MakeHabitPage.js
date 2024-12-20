@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Checkbox from 'expo-checkbox';
 import { apiAddHabit } from '../../function/api';
 import { useMutation } from '@tanstack/react-query';
-import { alertOneButton } from '../../function/functions';
+import { alertOneButton, alertOneButtonNavi } from '../../function/functions';
 import moment from 'moment';
 
 export default function MakeHabitPage({ navigation }) {
@@ -14,11 +14,12 @@ export default function MakeHabitPage({ navigation }) {
   const addMutation = useMutation({
     mutationFn: apiAddHabit,
     onSuccess: (data) => {
-      console.log('성공')
+      return alertOneButtonNavi('습관 생성이 완료되었습니다.', navigation, navigation.goback, 'goBack')
     },
     onError: (error) => {
       const status = error.response?.status;
       const errorData = error.response?.data.details;
+      console.log('d')
       if (status === 400) {
         if (errorData.errCode === 1) return alertOneButton(errorData.errResData?.text) // 데이터 누락
         if (errorData.errCode === 2) return alertOneButton(errorData.errResData?.text) // 데이터 검증 오류
